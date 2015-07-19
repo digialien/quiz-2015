@@ -11,6 +11,6 @@ exports.answer = function(req, res) {
 };
 
 exports.author = function(req, res) {
-	res.render('author', {autor: 'Qin Jian'})
+	res.render('author', {autor: 'Qin Jian', urlFoto: '/images/foto.jpg'})
 }
 
