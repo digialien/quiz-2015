@@ -33,14 +33,19 @@ var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
 exports.Quiz = Quiz;
 
 //sequelize.sync() create and initialize the table of questions in DB
-sequelize.sync().success(function() {
+sequelize.sync().then(function() {
 	// success run the hook once created the table
-	Quiz.count().success(function (count){
+	Quiz.count().then(function (count){
+		console.log('numero de registros: ' + count);
 		if (count === 0) {
 			Quiz.create({ pregunta: 'Capital de Italia',
 		                  respuesta: 'Roma'
-		              })
-			.success(function() {console.log('Base de datos inicializada')});
+		              });
+			Quiz.create({ pregunta: 'Capital de Portugal', 
+		                  respuesta: 'Lisboa'
+		              }).then(function() {
+		              	   console.log('Base de datos inicializada')
+		              	  });
 		};
 	});
 });
