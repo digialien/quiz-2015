@@ -27,16 +27,20 @@ exports.answer = function(req, res) {
 };
 
 exports.index = function(req, res) {
-  models.Quiz.findAll().then(function(quizes) {
-    res.render('quizes/index.ejs', {quizes: quizes});
-  }).catch(function(error){next(error);})
+  if (req.query.search == undefined || req.query.search == null) {
+    models.Quiz.findAll().then(function(quizes) {
+      res.render('quizes/index.ejs', {quizes: quizes});
+    }).catch(function(error){next(error);})
+  }
+  else {
+    var search = "%" + req.query.search + "%";
+    search = search.replace(/\s/g, "%");
+    models.Quiz.findAll({ where: ["pregunta like ?", search] }).then(function(quizes) {
+      res.render('quizes/index.ejs', {quizes: quizes});
+    }).catch(function(error){next(error);})
+  };
 };
 
-exports.index = function(req, res) {
-  models.Quiz.findAll().then(function(quizes) {
-    res.render('quizes/index.ejs', {quizes: quizes});
-  }).catch(function(error){next(error);})
-};
 
 exports.author = function(req, res) {
 	res.render('author', {autor: 'Qin Jian', urlFoto: '/images/foto.jpg'})
