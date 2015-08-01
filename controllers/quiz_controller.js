@@ -1,5 +1,7 @@
 var models = require('../models/models.js');
 
+var mapTema = {'Otro':'otro', 'Humanidades': 'humanidades', 'Ocio':'ocio', 'Ciencia':'ciencia', 'Tecnologia':'tecnologia'};
+
 exports.load = function(req, res, next, quizId) {
   models.Quiz.find(quizId).then(
     function(quiz) {
@@ -55,7 +57,7 @@ exports.new = function(req, res) {
   var quiz = models.Quiz.build(
     {pregunta: "Pregunta", respuesta: "Respuesta"}
   );
-  res.render('quizes/new', {quiz: quiz, errors: []});
+  res.render('quizes/new', {quiz: quiz, temas: mapTema, errors: []});
 };  
 
 // POST /quizes/create
@@ -66,7 +68,7 @@ exports.create = function(req, res) {
       if (err) {
         res.render('quizes/new', {quiz: quiz, errors: err.errors});
       } else {
-        quiz.save({fields: ["pregunta", "respuesta"]}).then(
+        quiz.save({fields: ["pregunta", "respuesta", "tema"]}).then(
           function(){
             res.redirect('/quizes');
           }
@@ -80,19 +82,20 @@ exports.create = function(req, res) {
 
 exports.edit = function(req, res) {
   var quiz = req.quiz;
-  res.render('quizes/edit', {quiz: quiz, errors: []});
+  res.render('quizes/edit', {quiz: quiz, temas: mapTema, errors: []});
 };
 
 exports.update = function(req, res) {
   req.quiz.pregunta = req.body.quiz.pregunta;
   req.quiz.respuesta = req.body.quiz.respuesta;
+  req.quiz.tema = req.body.quiz.tema;
 
   req.quiz.validate().then(
     function(err){
       if (err) {
         res.render('quizes/edit', {quiz:req.quiz, errors: err.errors});
       } else {
-        req.quiz.save({fields: ["pregunta", "respuesta"]})
+        req.quiz.save({fields: ["pregunta", "respuesta", "tema"]})
                 .then( function(){ res.redirect('/quizes');});
       }
     })

@@ -39,7 +39,8 @@ sequelize.sync().then(function() {
 		console.log('numero de registros: ' + count);
 		if (count === 0) {
 			Quiz.create({ pregunta: 'Capital de Italia',
-		                  respuesta: 'Roma'
+		                  respuesta: 'Roma',
+		                  tema: 'humanidades'
 		              });
 			Quiz.create({ pregunta: 'Capital de Portugal', 
 		                  respuesta: 'Lisboa'
