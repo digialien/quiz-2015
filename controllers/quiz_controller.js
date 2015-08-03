@@ -66,7 +66,7 @@ exports.create = function(req, res) {
   quiz.validate().then(
     function(err){
       if (err) {
-        res.render('quizes/new', {quiz: quiz, errors: err.errors});
+        res.render('quizes/new', {quiz: quiz, temas:mapTema, errors: err.errors});
       } else {
         quiz.save({fields: ["pregunta", "respuesta", "tema"]}).then(
           function(){
@@ -93,7 +93,7 @@ exports.update = function(req, res) {
   req.quiz.validate().then(
     function(err){
       if (err) {
-        res.render('quizes/edit', {quiz:req.quiz, errors: err.errors});
+        res.render('quizes/edit', {quiz:req.quiz, temas: mapTema, errors: err.errors});
       } else {
         req.quiz.save({fields: ["pregunta", "respuesta", "tema"]})
                 .then( function(){ res.redirect('/quizes');});
