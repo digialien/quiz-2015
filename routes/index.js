@@ -34,6 +34,7 @@ router.post('/quizes/:quizId(\\d+)/comments',     commentController.create);
 router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish', 
 	                                       sessionController.loginRequired, commentController.publish);
 
+router.get('/timeout',                     quizController.transactionTimeout);
 
 module.exports = router;
 

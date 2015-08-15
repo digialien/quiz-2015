@@ -55,6 +55,10 @@ exports.author = function(req, res) {
                errors: []});
 }
 
+exports.transactionTimeout = function(req, res) {
+  res.render('timeout', {errors: []});
+}
+
 // GET /quiezes/new
 exports.new = function(req, res) {
   var quiz = models.Quiz.build(

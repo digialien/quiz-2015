@@ -17,6 +17,13 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// App Constants
+// session idle timeout in milliseconds
+var MAX_SESSION_IDLE_TIME = 120000;
+
+var lastTxTime, currentTxTime;
+var consecutiveTxElapsedTime = 0;
+
 app.use(partials());
 
 // uncomment after placing your favicon in /public
@@ -26,9 +33,25 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser('Quiz 2015'));
-app.use(session());
+app.use(session({cookie: { maxAge: MAX_SESSION_IDLE_TIME }}));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(function(req, res, next) {
+    app.locals.session = req.session;
+    console.log('remaining cookie age: %d milliseconds',app.locals.session.cookie.maxAge);
+    lastTxTime = lastTxTime || new Date();
+    currentTxTime = new Date();
+    consecutiveTxElapsedTime = currentTxTime.valueOf() - lastTxTime.valueOf();
+    console.log('elapsed time since the last login: %d milliseconds', consecutiveTxElapsedTime);
+    if (consecutiveTxElapsedTime > MAX_SESSION_IDLE_TIME) {
+        res.redirect('/timeout');
+        lastTxTime = null;
+    } else {
+        lastTxTime = currentTxTime;
+        next();
+    };
+}) 
 
 //Helpers dinamicos:
 app.use(function(req, res, next) {
@@ -40,6 +63,7 @@ app.use(function(req, res, next) {
     //Hacer visible req.session en las vistas
     res.locals.session = req.session;
     next();
+
 })
 
 app.use('/', routes);
