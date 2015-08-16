@@ -1,0 +1,13 @@
+<% var nComentariosPorPregunta = 0; %>
+
+<% if (resultado.nPreguntas > 0) {%>
+<% nComentariosPorPregunta = resultado.nComentarios / resultado.nPreguntas; %>
+<%}%>
+
+<% var nPreguntaSinComentario = resultado.nPreguntas - resultado.nPreguntaConComentario %>
+
+<p>Numero de Preguntas: <%= resultado.nPreguntas %></p>
+<p>Numero de Comentarios: <%= resultado.nComentarios %></p>
+<p>Numero de Preguntas con Comentarios: <%= resultado.nPreguntaConComentario %></p>
+<p>Numero medio de comentarios por pregunta: <%= nComentariosPorPregunta.toFixed(2) %></p>
+<p>Numero de preguntas sin Comentarios: <%= nPreguntaSinComentario %></p>
