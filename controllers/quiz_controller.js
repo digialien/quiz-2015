@@ -136,22 +136,4 @@ exports.getStats = function(req, res) {
     console.log('el resultado a pasar es: ', resultado);
     res.render('quizes/statistics', {resultado:resultado, errors: []});
   });
-  
- 
-
-
-/*  
-  if (resultado.nPreguntas != 0) {
-    resultado.nComentariosPregunta = resultado.nComentarios / resultado.nPreguntas;
-    console.log('numero medio de comentarios por pregunta: ' + resultado.nComentariosPregunta);
-  };
-    
-  models.Comment.aggregate('QuizId', 'count', {distintct: true}).then(function(count){
-    resultado.nPreguntaConComentario = count;
-    console.log('numero de preguntas con comentarios: ' + resultado.nPreguntaConComentario);
-  });
-
-  resultado.nPreguntaSinComentario = resultado.nPreguntas - resultado.nPreguntaConComentario;
-  console.log('numero de preguntas sin comentarios: ' + resultado.nPreguntaSinComentario);
-*/
 }
