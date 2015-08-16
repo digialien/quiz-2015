@@ -36,5 +36,7 @@ router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish',
 
 router.get('/timeout',                     quizController.transactionTimeout);
 
+router.get('/statistics',                  quizController.getStats);
+
 module.exports = router;
 
